@@ -58,7 +58,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
 // })
 
 // const code = new Task({
-//     description: "Going to watch some videos and maybe code",
+//     description: "probably gonna delete this for practice",
 //     completed: false
 // })
 
