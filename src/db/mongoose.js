@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
     useNewUrlParser: true,
@@ -7,36 +8,69 @@ mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
 
 const User = mongoose.model('User', {
     name: {
-        type: String
+        type: String,
+        required: true,
+        trim: true
     },
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("Email is invalid format")
+            }
+        }
+    },
+    password: {
+        type: String,
+        trim: true,
+        minlength: 7,
+        validate(value){
+            if(value.includes("password")){
+                throw new Error("Password cannot contain password")
+            }
+        }
+    } , 
     age: {
-        type: Number
+        type: Number,
+        default: 0,
+        validate(value){
+            if(value < 0){
+                throw new Error('Age must be positive number')
+            }
+        }
     }
 })
 
 const Task = mongoose.model('Task', {
     description: {
-        type: String
+        type: String,
+        required: true,
+        trim: true
     },
     completed: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 })
 
-const code = new Task({
-    description: "Going to watch some videos and maybe code",
-    completed: false
-})
+// const code = new Task({
+//     description: "Going to watch some videos and maybe code",
+//     completed: false
+// })
 
-code.save().then(() => {
-    console.log(code)
-}).catch((error) => {
-    console.log(error)
-})
+// code.save().then(() => {
+//     console.log(code)
+// }).catch((error) => {
+//     console.log(error)
+// })
 
 // const me = new User({
-//     name: 'Rei',
-//     age: 29
+//     name: '  Reinald',
+//     email: "rei@microsoft.edu",
+//     password: "super"
 // })
 
 // me.save().then(()=>{
