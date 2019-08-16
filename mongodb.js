@@ -6,7 +6,7 @@
 
 const {MongoClient, ObjectID} = require('mongodb')
 
-const connectionURL = 'mongodb://127.0.0.1:27017'
+// const connectionURL = 'mongodb://127.0.0.1:27017'
 
 const databaseName = 'task-manager'
 
@@ -14,7 +14,7 @@ const databaseName = 'task-manager'
 // console.log(id)
 // console.log(id.getTimestamp())
 
-MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error,client) => {
+MongoClient.connect(process.env.MONGODB_URL, { useNewUrlParser: true }, (error,client) => {
     if(error){
         return console.log('Unable to connect to database')
     }
